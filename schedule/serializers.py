@@ -15,12 +15,10 @@ class DateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        global date
         representation = super().to_representation(instance)
-        print('11111111111111111111')
-        print(self.instance.first())
+        representation['employee'] = self.instance
         data = self.instance.values().last()
-        print(data)
+        representation['time'] = data['date'].time()
         date1 = data['date'].date()
         representation['date'] = date1
         return representation
