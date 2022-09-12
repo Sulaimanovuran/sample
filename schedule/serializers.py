@@ -9,6 +9,18 @@ class ScrollSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class DateSerializer(serializers.Serializer):
-    date = serializers.DateTimeField(required=True)
+class DateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Date
+        fields = '__all__'
 
+    def to_representation(self, instance):
+        global date
+        representation = super().to_representation(instance)
+        print('11111111111111111111')
+        print(self.instance.first())
+        data = self.instance.values().last()
+        print(data)
+        date1 = data['date'].date()
+        representation['date'] = date1
+        return representation
